@@ -3,13 +3,17 @@ import os
 import json
 app_dir = os.path.dirname(os.path.abspath(__file__))
 configuration_dir = os.path.join(app_dir, 'configuration')
+img_proc_dir = os.path.join(app_dir, 'image_processing')
 
 if configuration_dir not in sys.path:
     sys.path.insert(0, configuration_dir)
+if img_proc_dir not in sys.path:
+    sys.path.insert(0, img_proc_dir)
 
 if app_dir not in sys.path:
     sys.path.insert(0, app_dir)
 
+from image_processing import merge_images
 from flask import Flask, render_template, url_for, flash, request, redirect, send_file, after_this_request
 from werkzeug.utils import secure_filename
 
@@ -31,6 +35,26 @@ def info():
 @wrapme.route('/index')
 def index():
     return render_template('index.html')
+
+@wrapme.route('/merge_images', methods=['GET','POST'])
+def merge_images():
+    if request.method == 'POST':
+        base = request.files['base']
+        overlay = request.files['overlay']
+
+        if base and allowed_file(base.filename):
+            base_filename = secure_filename(base.filename)
+            base.save(os.path.join(wrapme.config['IMAGE_DIR'], base_filename))
+        if overlay and allowed_file(overlay.filename):
+            overlay_filename = secure_filename(overlay.filename)
+            overlay.save(os.path.join(wrapme.config['IMAGE_DIR'], overlay_filename))
+        print('Merging the images')
+        print(overlay_filename)
+        print(base_filename)
+        merge_images(base_filename, overlay_filename, debug=True)
+    else:
+        return render_template('merge.html')
+
 
 
 @wrapme.route('/upload', methods=['GET', 'POST'])
