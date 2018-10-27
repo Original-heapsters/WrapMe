@@ -44,7 +44,7 @@ def upload():
                 return redirect(request.url)
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(wrapme.config['AUDIO_DIR'], filename))
+                file.save(os.path.join(wrapme.config['IMAGE_DIR'], filename))
         return render_template('upload.html')
     else:
         return render_template('upload.html')
@@ -65,15 +65,18 @@ def setup():
         port = configuration['port']
 
     allowed_extensions = {'jpeg', 'jpg', 'png'}
-
+    upload_dir = os.path.join(working_dir, os.path.join('static', 'images'))
     log_dir = os.path.join(working_dir, os.path.join('static', 'logs'))
     log_file = os.path.join(log_dir, 'log.txt')
 
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
+    if not os.path.exists(upload_dir):
+        os.makedirs(upload_dir)
     if not os.path.exists(log_file):
         open(log_file, 'w').close()
 
+    wrapme.config["IMAGE_DIR"] = upload_dir
     wrapme.config["LOG_FILE"] = log_file
     wrapme.config["ALLOWED_EXTENSIONS"] = allowed_extensions
     wrapme.config["HOST"] = host
