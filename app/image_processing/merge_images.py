@@ -32,13 +32,13 @@ def merge_set(base, overlays):
 
 
 if __name__ == '__main__':
-    merge_images('../static/images/image.png', '../static/images/basic_tattoo.png', debug=True)
+    # merge_images('../static/images/image.png', '../static/images/basic_tattoo.png', debug=True)
     base = '../static/images/image.png'
-    overlay_dict = [('../static/images/basic_tattoo.png', (0,0), (100,100)),
-    ('../static/images/basic_tattoo.png', (100,100), (500,500)),
-    ('../static/images/basic_tattoo.png', (200,200), (350,350)),
-    ('../static/images/basic_tattoo.png', (800,800), (50,50)),
-    ('../static/images/basic_tattoo.png', (2000,2000), (10,10))
+    overlay_dict = [#('../static/images/basic_tattoo.png', (0,0), (100,100)),
+    ('../static/images/basic_tattoo.png', (327,145), (149,149))
+    # ('../static/images/basic_tattoo.png', (200,200), (350,350)),
+    # ('../static/images/basic_tattoo.png', (800,800), (50,50)),
+    # ('../static/images/basic_tattoo.png', (2000,2000), (10,10))
     ]
 
     merge_set(base, overlay_dict)
