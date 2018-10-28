@@ -14,6 +14,7 @@ if app_dir not in sys.path:
     sys.path.insert(0, app_dir)
 
 from image_processing import merge_images
+import validate_image
 from flask import Flask, render_template, url_for, flash, request, redirect, send_file, after_this_request
 from werkzeug.utils import secure_filename
 
@@ -51,7 +52,8 @@ def merge_images():
         print('Merging the images')
         print(overlay_filename)
         print(base_filename)
-        merge_images(base_filename, overlay_filename, debug=True)
+        if validate_image.has_face(base_filename):
+        	merge_images(base_filename, overlay_filename, debug=True)
     else:
         return render_template('merge.html')
 
