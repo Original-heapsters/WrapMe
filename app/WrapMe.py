@@ -1,5 +1,6 @@
 import sys
 import os
+import uuid
 import json
 app_dir = os.path.dirname(os.path.abspath(__file__))
 configuration_dir = os.path.join(app_dir, 'configuration')
@@ -45,15 +46,17 @@ def merge_images():
 
         print('Merging the images')
         face_boxes = validate_image.has_face(base_file_path)
-        if len(face_boxes) > 0:
+        if face_boxes is not None:
             result = merge.add_tats(base_file_path, face_boxes)
-            output_file = os.path.join(wrapme.config['IMAGE_DIR'], base_filename)
-            w,h = result.size
-            result.save(output_file)
-            img_path = os.path.join('/static/images', base_filename)
-            img_path = 'http://127.0.0.1:' + wrapme.config['PORT'] + img_path
-            print('I want to render ' + str(h) + ' x ' + str(w) + ' from ' + img_path)
-            return render_template('merge.html', img_path=img_path, height=h, width=w )
+            img_paths = []
+            for image in result:
+                hash = uuid.uuid4().hex
+                output_file = os.path.join(wrapme.config['IMAGE_DIR'], hash + base_filename)
+                image.save(output_file)
+                img_path = os.path.join('/static/images', hash + base_filename)
+                img_paths.append(img_path)
+
+            return render_template('merge.html', img_paths=img_paths )
     else:
         return render_template('merge.html')
 

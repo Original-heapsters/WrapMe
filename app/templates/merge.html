@@ -6,6 +6,7 @@
     <input type=file name="base">
     <input type=submit value=Merge>
   </form>
-
-  <img src="{{img_path}}" alt="nice" height="{{height}}" width="{{width}}">
+  {% for img_path in img_paths %}
+    <img src="{{ img_path }}" width="500">
+  {% endfor %}
   {% endblock %}
