@@ -55,14 +55,10 @@ def resize_image(input_img, new_size):
 
 def export_headshots(image, rectangles):
     base_img = Image.open(image)
-    count = 1
-
     headshots = []
 
     for rect in rectangles:
         headshot = base_img.crop((rect.left(), rect.top(), rect.right(), rect.bottom()))
-        headshot.save('headshot_%s.png' % str(count))
-        count += 1
         headshots.append(headshot)
 
     print(len(headshots))
