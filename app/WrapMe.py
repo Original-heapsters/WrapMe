@@ -53,7 +53,9 @@ def merge_images():
         print('Merging the images')
         print(overlay_filename)
         print(base_filename)
-        if validate_image.has_face(base_file_path):
+        face_boxes = validate_image.has_face(base_file_path)
+        if len(face_boxes) > 0:
+            merge_images.add_tats(base_filename, face_boxes)
         	merge_images(base_filename, overlay_filename, debug=True)
     else:
         return render_template('merge.html')
