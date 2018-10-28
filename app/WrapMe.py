@@ -42,11 +42,18 @@ def merge_images():
             base_filename = secure_filename(base.filename)
             base_file_path = os.path.join(wrapme.config['IMAGE_DIR'], base_filename)
             base.save(base_file_path)
-        
+
         print('Merging the images')
         face_boxes = validate_image.has_face(base_file_path)
         if len(face_boxes) > 0:
-            merge.add_tats(base_file_path, face_boxes)
+            result = merge.add_tats(base_file_path, face_boxes)
+            output_file = os.path.join(wrapme.config['IMAGE_DIR'], base_filename)
+            w,h = result.size
+            result.save(output_file)
+            img_path = os.path.join('/static/images', base_filename)
+            img_path = 'http://127.0.0.1:' + wrapme.config['PORT'] + img_path
+            print('I want to render ' + str(h) + ' x ' + str(w) + ' from ' + img_path)
+            return render_template('merge.html', img_path=img_path, height=h, width=w )
     else:
         return render_template('merge.html')
 
