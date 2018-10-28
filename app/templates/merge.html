@@ -4,6 +4,7 @@
   <h1>Merge two files</h1>
   <form method=post enctype=multipart/form-data>
     <input type=file name="base">
+    <input type="checkbox" name="Debug" value=True checked>Debug<br>
     <input type=submit value=Merge>
   </form>
   {% for img_path in img_paths %}
