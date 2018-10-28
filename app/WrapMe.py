@@ -3,18 +3,14 @@ import os
 import json
 app_dir = os.path.dirname(os.path.abspath(__file__))
 configuration_dir = os.path.join(app_dir, 'configuration')
-img_proc_dir = os.path.join(app_dir, 'image_processing')
 
 if configuration_dir not in sys.path:
     sys.path.insert(0, configuration_dir)
-if img_proc_dir not in sys.path:
-    sys.path.insert(0, img_proc_dir)
 
 if app_dir not in sys.path:
     sys.path.insert(0, app_dir)
 
-import merge
-import validate_image
+from image_processing import merge, validate_image
 from flask import Flask, render_template, url_for, flash, request, redirect, send_file, after_this_request
 from werkzeug.utils import secure_filename
 
