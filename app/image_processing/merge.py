@@ -33,12 +33,16 @@ def add_tats(base_img, rectangles, debug=False):
 
             overlays.append((image, coord, size))
 
-    final_image = merge_set(base=base_img, overlays=overlays)
-    
-    if debug:
-        return [final_image].extend(export_headshots(base_img, rectangles))
+    image_list = []
 
-    return [final_image]
+    final_image = merge_set(base=base_img, overlays=overlays)
+    image_list.append(final_image)
+
+    if debug:
+        headshots = export_headshots(base_img, rectangles)
+        image_list.extend(headshots)
+        
+    return image_list
 
 def get_image_size(input_img):
     w, h = input_img.size
@@ -61,6 +65,7 @@ def export_headshots(image, rectangles):
         count += 1
         headshots.append(headshot)
 
+    print(len(headshots))
     return headshots
 
 
