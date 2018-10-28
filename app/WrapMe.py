@@ -41,22 +41,16 @@ def index():
 def merge_images():
     if request.method == 'POST':
         base = request.files['base']
-        overlay = request.files['overlay']
 
         if base and allowed_file(base.filename):
             base_filename = secure_filename(base.filename)
             base_file_path = os.path.join(wrapme.config['IMAGE_DIR'], base_filename)
             base.save(base_file_path)
-        if overlay and allowed_file(overlay.filename):
-            overlay_filename = secure_filename(overlay.filename)
-            overlay.save(os.path.join(wrapme.config['IMAGE_DIR'], overlay_filename))
+        
         print('Merging the images')
-        print(overlay_filename)
-        print(base_filename)
         face_boxes = validate_image.has_face(base_file_path)
         if len(face_boxes) > 0:
-            merge_images.add_tats(base_filename, face_boxes)
-        	merge_images(base_filename, overlay_filename, debug=True)
+            merge.add_tats(base_file_path, face_boxes)
     else:
         return render_template('merge.html')
 
