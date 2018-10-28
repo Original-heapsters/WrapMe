@@ -25,10 +25,10 @@ def add_tats(base_img, rectangles, debug=False):
         x_max = rect.right()
 
         for i in range(1,random.randint(2,max_tattoos_per_face)):
-            coord = (random.randint(x_min,x_max), random.randint(y_min,y_max))
             width = random.randint(smallest_tattoo_size, (x_max-x_min))
             height = random.randint(smallest_tattoo_size, (y_max-y_min))
             size = (width,height)
+            coord = (random.randint(x_min,abs(x_max-width)), random.randint(y_min,abs(y_max-height)))
             image = choose_random_tattoo()
 
             overlays.append((image, coord, size))
