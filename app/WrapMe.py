@@ -13,7 +13,7 @@ if img_proc_dir not in sys.path:
 if app_dir not in sys.path:
     sys.path.insert(0, app_dir)
 
-from image_processing import merge_images
+import merge
 import validate_image
 from flask import Flask, render_template, url_for, flash, request, redirect, send_file, after_this_request
 from werkzeug.utils import secure_filename
