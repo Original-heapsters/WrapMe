@@ -14,8 +14,6 @@ def merge_images(base, overlay, coords=(0,0), debug=False):
     foreground = Image.open(overlay)
 
     background.paste(foreground, coords, foreground)
-    if debug:
-        background.show()
     return background
 
 def add_tats(base_img, rectangles):
@@ -35,7 +33,8 @@ def add_tats(base_img, rectangles):
 
             overlays.append((image, coord, size))
 
-    merge_set(base=base_img, overlays=overlays)
+    final_image = merge_set(base=base_img, overlays=overlays)
+    return final_image
 
 
 def get_image_size(input_img):
@@ -59,7 +58,7 @@ def merge_set(base, overlays):
         overlay = resize_image(overlay, new_size)
         base_img.paste(overlay,new_coord,overlay)
 
-    base_img.show()
+    return base_img
 
 def choose_random_tattoo():
     file_name = random.choice(os.listdir(tattoo_dir))
