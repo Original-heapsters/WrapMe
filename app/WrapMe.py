@@ -47,7 +47,7 @@ def merge_images():
         print('Merging the images')
         face_boxes = validate_image.has_face(base_file_path)
         if face_boxes is not None:
-            result = merge.add_tats(base_file_path, face_boxes)
+            result = merge.add_tats(base_file_path, face_boxes, debug=request.form['Debug'])
             img_paths = []
             for image in result:
                 hash = uuid.uuid4().hex

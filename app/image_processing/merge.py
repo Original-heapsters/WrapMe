@@ -16,7 +16,7 @@ def merge_images(base, overlay, coords=(0,0), debug=False):
     background.paste(foreground, coords, foreground)
     return background
 
-def add_tats(base_img, rectangles):
+def add_tats(base_img, rectangles, debug=False):
     overlays = []
     for rect in rectangles:
         y_min = rect.top()
@@ -36,6 +36,9 @@ def add_tats(base_img, rectangles):
     final_image = merge_set(base=base_img, overlays=overlays)
     return final_image
 
+    if debug:
+        export_headshots(base_img, rectangles)
+
 
 def get_image_size(input_img):
     w, h = input_img.size
@@ -45,6 +48,14 @@ def resize_image(input_img, new_size):
     input_img.thumbnail(new_size, Image.ANTIALIAS)
 
     return input_img
+
+def export_headshots(image, rectangles):
+    base_img = Image.open(image)
+    count = 1
+    for rect in rectangles:
+        headshot = base_img.crop((rect.left(), rect.top(), rect.right(), rect.bottom()))
+        headshot.save('headshot_%s.png' % str(count))
+        count += 1
 
 def merge_set(base, overlays):
     tmp = base
