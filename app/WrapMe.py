@@ -13,7 +13,7 @@ if img_proc_dir not in sys.path:
 if app_dir not in sys.path:
     sys.path.insert(0, app_dir)
 
-from image_processing import merge_images
+import merge
 import validate_image
 from flask import Flask, render_template, url_for, flash, request, redirect, send_file, after_this_request
 from werkzeug.utils import secure_filename
@@ -41,22 +41,16 @@ def index():
 def merge_images():
     if request.method == 'POST':
         base = request.files['base']
-        overlay = request.files['overlay']
 
         if base and allowed_file(base.filename):
             base_filename = secure_filename(base.filename)
             base_file_path = os.path.join(wrapme.config['IMAGE_DIR'], base_filename)
             base.save(base_file_path)
-        if overlay and allowed_file(overlay.filename):
-            overlay_filename = secure_filename(overlay.filename)
-            overlay.save(os.path.join(wrapme.config['IMAGE_DIR'], overlay_filename))
+        
         print('Merging the images')
-        print(overlay_filename)
-        print(base_filename)
         face_boxes = validate_image.has_face(base_file_path)
         if len(face_boxes) > 0:
-            merge_images.add_tats(base_filename, face_boxes)
-        	merge_images(base_filename, overlay_filename, debug=True)
+            merge.add_tats(base_file_path, face_boxes)
     else:
         return render_template('merge.html')
 

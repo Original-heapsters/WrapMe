@@ -2,7 +2,8 @@ import os
 import random
 from PIL import Image
 
-tattoo_dir = 'tattoos'
+
+tattoo_dir = os.path.join(os.path.dirname(__file__), 'tattoos')
 smallest_tattoo_size = 10
 max_tattoos_per_face = 20
 
